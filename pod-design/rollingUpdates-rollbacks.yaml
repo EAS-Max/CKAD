@@ -1,0 +1,53 @@
+# Example below uses the RollingUpdate strategy
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-rolling
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:tag
+# The maxSurge and maxUnavailable fields determine the amount of pods that can be down 
+# and brought up simultaneously during the update process. This strategy gradually replaces
+# pods while maintaining a certain level of availability.
+
+# The below is an example of a deployment using the Recreate strategy
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-recreate
+spec:
+  replicas: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:tag
+
+# The Recreate strategy terminates all existing pods before creating new ones to match the 
+# desired state. It provides a clean and predictable update process but may result in a brief 
+# downtime during the transition.

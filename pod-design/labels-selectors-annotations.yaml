@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replicaset
+  labels:
+    app: my-app
+  annotations:
+    description: This ReplicaSet uses label, annotations and selectors.
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:tag
+# Labels are key-value pairs used to identify and group resources.
+# Here, the app: my-app label is applied to the ReplicaSet, and it is also used as
+# a selector to match the pods controlled by this ReplicaSet.
+
+# Annotations provide additional metadata or descriptive information
+# about the ReplicaSet. Here, the description annotation provides a description for the ReplicaSet.
+
+# The selector defines the criteria used to select and match the pods controlled by the ReplicaSet.
+# In this case, it matches pods with the app: my-app label.
