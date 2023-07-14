@@ -1,0 +1,64 @@
+# One of the most popular services used in kubernetes is NodePort
+# A NodePort Service exposes pods on a specific port on each worker node in the cluster. 
+# It enables access to the Service from outside the cluster using the worker nodes' IP addresses. 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  selector:
+    app: my-app
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30080
+# In this example, the Service named my-nodeport-service selects pods with the label app: my-app. 
+# It exposes port 80 on the Service, which forwards traffic to port 8080 on the targeted pods. 
+# Because the Service is of type NodePort it assigns the port 30080 on each worker node to forward traffic to the Service.
+
+
+# Another type of service k8s is ClusterIP
+# A ClusterIP Service provides a stable internal IP address and port combination for accessing pods within the cluster. 
+# It enables communication between different pods and services within the cluster.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-clusterip-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+# In this example, the Service named my-clusterip-service selects pods with the label app: my-app. It exposes port 80 
+# on the Service, which forwards traffic to port 8080 on the targeted pods.
+
+
+# Another service type in k8's is LoadBalancer
+# A LoadBalancer Service automatically provisions an external load balancer to expose your service to the internet. 
+# It distributes incoming traffic across multiple pods and provides high availability and scalability.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  selector:
+    app: my-app
+  type: LoadBalancer
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+# In this example, the Service named my-loadbalancer-service selects pods with the label app: my-app. 
+# It exposes port 80 on the Service, which forwards traffic to port 8080 on the targeted pods. 
+# The Service is of type LoadBalancer, and depending on your underlying infrastructure, it will 
+# automatically provision an external load balancer to distribute traffic to the pods.

@@ -1,0 +1,40 @@
+# Jobs are used for running a task or a batch process in Kubernetes, ensuring
+# that the task completes successfully before terminating. Jobs are typically used 
+# for one-off or short-lived tasks.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+spec:
+  completions: 1
+  template:
+    spec:
+      containers:
+      - name: my-container
+        image: my-image:tag
+        command: ["my-command"]
+      restartPolicy: Never
+# In this example, the Job executes a command within a container. 
+# It is set to complete a single run (set by completions: 1) and has a restart policy of Never, ensuring 
+# that the Job terminates once the task is completed successfully.
+
+
+# CronJobs are used for scheduling recurring or periodic tasks in Kubernetes. They are based on the familiar 
+# cron syntax and execute jobs on a specified schedule.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: my-container
+            image: my-image:tag
+            command: ["my-command"]
+          restartPolicy: OnFailure
+# In this example, the CronJob is scheduled to run every 5 minutes (schedule: "*/5 * * * *") and executes the specified 
+# command within a container. The restart policy is set to OnFailure, this means the Job can and will restart if it fails.
